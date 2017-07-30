@@ -1,0 +1,17 @@
+body{
+    font-family: Geneva;
+    font-size: large;
+    text-align: center;
+}
+
+td {
+    background-color: rgba(61, 204, 166, 0.85);
+}
+
+th {
+    background-color: #ada18c;
+}
+
+.correction {
+    color: red;
+}

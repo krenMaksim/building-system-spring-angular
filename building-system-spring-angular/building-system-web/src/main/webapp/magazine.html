@@ -1,0 +1,61 @@
+<ng-include src="templateUrl.nameBuilding"></ng-include>
+<div class="row">
+    <div class="col-md-8 form-inline">
+        <div class="form-group">
+            <label for="date_with" translate>MAG_WITH</label>
+            <input type="date" class="form-control" id="date_with" size="15" ng-model="dateWith">
+        </div>
+        <div class="form-group">
+            <label for="date_on" translate>MAG_ON</label>
+            <input type="date" class="form-control" id="date_on" size="15" ng-model="dateOn">
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-info" data-toggle="collapse" data-target=".correction" ng-click="changeButtonLabel()" translate>{{correction}}</button>
+        </div>
+    </div>
+    <div class="col-md-4 form-inline">
+        <label ng-repeat="surname in magazine.surname"><input type="checkbox" ng-click="changeSurnameSet(surname)"/>{{surname}}</label>
+    </div>
+</div>
+<table class="table table-bordered">
+    <ng-include src="templateUrl.caption"></ng-include>
+    <tbody ng-include="templateUrl.magazineTableHeader"></tbody>
+    <tbody>
+        <tr ng-repeat="mag in magazine.magazine | filter: filterRecords ">
+            <td>
+                {{mag.date}} смена {{mag.smena}}
+                <p class="collapse correction">{{mag.archive.date}}</p>
+                <p class="collapse correction">{{mag.archive.smena}}</p>
+            </td>
+            <td>
+                {{mag.obosnovanie}} <br> {{mag.location}}
+                <p class="collapse correction">{{mag.archive.obosnovanie}}</p>
+                <p class="collapse correction">{{mag.archive.location}}</p>
+            </td>
+            <td>
+                {{mag.weather}}
+                <p class="collapse correction">{{mag.archive.weather}}</p>
+            </td>
+            <td>
+                {{mag.conditions}}
+                <p class="collapse correction">{{mag.archive.conditions}}</p>
+            </td>
+            <td>
+                {{mag.edIzm}}
+            </td>
+            <td>
+                {{mag.kolVo}}
+                <p class="collapse correction">{{mag.archive.kolVo}}</p>              
+            </td>
+            <td>
+                {{mag.controle}}
+                <p class="collapse correction">{{mag.archive.controle}}</p>
+            </td>
+            <td>
+                {{mag.role}} <br> {{mag.surnameInitials}}
+                <p class="collapse correction">{{mag.archive.surnameInitials}}</p> <br>
+                <button type="button" ng-click="goToRedactionPage(mag)" class="btn btn-sm btn-warning" translate>MAG_REDACTION_RECORD</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

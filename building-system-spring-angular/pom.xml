@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.mkren</groupId>
+	<artifactId>building-system</artifactId>
+	<version>${progect.version}</version>
+
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>building-system-dao</module>
+		<module>building-system-service</module>
+		<module>building-system-web</module>
+	</modules>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<progect.version>0.0.1-SNAPSHOT</progect.version>
+		<mysql.version>5.1.40</mysql.version>
+		<dozer.version>5.4.0</dozer.version>
+		<servlet.version>3.1.0</servlet.version>
+		<jsp.version>2.3.1</jsp.version>
+		<jstl.version>1.2</jstl.version>		
+		<hibernate-validator.version>5.1.1.Final</hibernate-validator.version>
+		<hibernate.version> 5.2.10.Final</hibernate.version>		
+		<jackson.version>2.7.5</jackson.version>
+		<spring.version>4.3.8.RELEASE</spring.version>
+		<springframework.security.version>4.2.3.RELEASE</springframework.security.version>
+		<jboss.logging.version>3.3.0.Final</jboss.logging.version>		
+	</properties>
+
+	<dependencies>		
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<version>${jboss.logging.version}</version>
+		</dependency>		
+	</dependencies>
+	
+	<build>
+		<finalName>building-system</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

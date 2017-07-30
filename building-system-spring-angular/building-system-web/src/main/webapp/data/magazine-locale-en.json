@@ -1,0 +1,19 @@
+{
+    "MAG_CAPTION": "Data on production of installation and construction works taking into account results, operational control of their quality",
+    "MAG_CHAPTER": "CHAPTER 4",
+    "MAG_CONDITION": "The taken measures in special conditions (the winter period, a heat, etc.)",
+    "MAG_CONTROLE": "Results of operational quality control, parameters of measurements",
+    "MAG_SHOW_CORRECTION": "SHOW CORRECTION",
+    "MAG_HIDE_CORRECTION": "HIDE CORRECTION",
+    "MAG_DATE": "Date of production of installation and construction works and change",    
+    "MAG_INITIALS": "Position, surname, initials and the signature of the responsible person and person estimating quality of installation and construction works",
+    "MAG_UNIT":"unit of measure",
+    "MAG_NUMBER": "number",
+    "MAG_NAIMENOVANIE": "Short description of installation and construction works, their location",
+    "MAG_OBJECT": "Plant on production of juice. The terminal in of Tabora of the Minsk district",
+    "MAG_ON": "ON:",
+    "MAG_WITH": "WITH:",
+    "MAG_PRIEMKA": "Acceptance of the performed installation and construction works",
+    "MAG_WEATHER": "Condition of weather and temperature of external air",
+    "MAG_REDACTION_RECORD":"REDACTION RECORD"
+}

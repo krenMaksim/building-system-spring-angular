@@ -1,0 +1,53 @@
+<ng-include src="templateUrl.nameBuilding"></ng-include>
+<table class="table table-bordered">
+    <ng-include src="templateUrl.caption"></ng-include>
+    <tbody ng-include="templateUrl.magazineTableHeader"></tbody>
+    <tbody>
+        <tr>
+            <th colspan="8">{{tableHeader | translate }} <b ng-repeat="report in responseReport" style="color:red">{{report}}</b></th>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="inputSmena" translate>REC_SMENA</label>
+                    <div class="col-sm-8">
+                        <select ng-model="updatedRecord.smena" ng-options="smena for smena in [1,2,3] track by smena" class="form-control" id="inputSmena"></select>
+                    </div>
+                </div>
+                <input class="form-control" type="date" ng-model="selectedDate" ng-disabled="isDataBlock" >
+            </td>
+            <td>
+                <div class="form-group">
+                    <label for="inputDiscription" translate>REC_DISCRIPTION</label>
+                    <select ng-model="updatedRecord.idSmeta" class="form-control" id="inputDiscription">
+                            <option ng-repeat="sm in smeta" value="{{sm.id}}">{{sm.obosnovanie}}  &emsp; {{sm.naimenovanie}}</option>
+                        </select>
+                </div>
+                <textarea class="form-control" rows="5" ng-model="updatedRecord.obosnovanie" disabled></textarea>
+
+                <div class="form-group">
+                    <label for="location" translate >REC_LOCATION</label>
+                    <textarea class="form-control" rows="5" id="location" ng-model="updatedRecord.location"></textarea>
+                </div>
+            </td>
+            <td><input class="form-control" type="text" ng-model="updatedRecord.weather"></td>
+            <td><textarea class="form-control" rows="5" ng-model="updatedRecord.conditions"></textarea></td>
+            <td>
+                <p>{{updatedRecord.edIzm}}</p>
+            </td>
+            <td>
+                <input class="form-control" type="text" ng-model="updatedRecord.kolVo" />
+                <p><b translate>REC_REST</b></p>
+                <p>{{getRestSmeta(updatedRecord.idSmeta) | number : 1}}</p>
+            </td>
+            <td><textarea class="form-control" rows="5" ng-model="updatedRecord.controle"></textarea></td>
+            <td>
+                <p><b translate>REC_STATUS</b>{{updatedRecord.role}}</p>
+                <select ng-model="updatedRecord.surnameInitials" class="form-control" ng-disabled="isInitialsBlock">
+                    <option ng-repeat="user in users" value="{{user.surnameInitials}}">{{user.surnameInitials}}</option>
+                </select>
+                <br><br><button ng-click="safeData()" class="btn btn-sm btn-info" translate>{{buttonHeader}}</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

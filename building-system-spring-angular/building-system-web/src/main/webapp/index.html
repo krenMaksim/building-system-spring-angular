@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="BuildingSysApp">
+
+<head>
+    <title>BuildingSystem</title>
+    <link type="text/css" rel="stylesheet" href="style/commonStyle.css" />
+
+</head>
+
+<body ng-controller="mainCtrl" style="background-color: #bad0ca">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9"></div>
+            <div class="col-md-3">
+                <h4 style="text-align: right">
+                    <button><a ng-click="changeLanguage('ru')"  translate="RUS_LOCALE"></a></button> &nbsp;&nbsp;
+                    <button><a ng-click="changeLanguage('en')"  translate="EN_LOCALE"></a></button>
+
+                </h4>
+            </div>
+        </div>
+        <div ng-include="templateUrl.header"></div>
+        <div ng-view> </div>
+    </div>
+    <!--AngularJS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-route.js"></script>
+    <!--angular-translate-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-cookies.js"></script>
+    <script src="https://cdn.rawgit.com/angular-translate/bower-angular-translate/2.15.2/angular-translate.js"></script>
+    <script src="https://cdn.rawgit.com/angular-translate/bower-angular-translate-loader-static-files/2.15.2/angular-translate-loader-static-files.js"></script>
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--programmer modules-->
+    <script src="js/module.js"></script>
+    <script src="js/appService.js"></script>
+    <script src="js/mainController.js"></script>
+    <script src="js/magazineControler.js"></script>
+    <script src="js/smetaController.js"></script>
+    <script src="js/redactionRecordController.js"></script>
+    <script src="js/addRecordController.js"></script>
+</body>
+
+</html>

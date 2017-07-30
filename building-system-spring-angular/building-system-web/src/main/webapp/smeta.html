@@ -1,0 +1,18 @@
+<table class="table table-bordered">
+    <h4 translate>CHAPTER</h4>
+    <h4 translate>CAPTION</h4>
+    <tr class="tdStyle">
+        <th class="width10" translate>PP</th>
+        <th class="width20" translate>OBOSNOVANIE</th>
+        <th translate>DISCRIPTION</th>
+        <th class="width10" translate>EDIZM</th>
+        <th class="width10" translate>NUMBER</th>
+    </tr>
+    <tr ng-repeat="smeta in smeta">
+        <td>{{ smeta.pp }}</td>
+        <td>{{ smeta.obosnovanie }}</td>
+        <td class="tdJustify">{{ smeta.naimenovanie }}</td>
+        <td>{{ smeta.edIzm }}</td>
+        <td>{{ smeta.kolVo }}</td>
+    </tr>
+</table>

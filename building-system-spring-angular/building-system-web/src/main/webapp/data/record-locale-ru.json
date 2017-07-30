@@ -1,0 +1,11 @@
+{
+    "REC_NEW_RECORD": "НОВАЯ ЗАПИСЬ",
+    "REC_UPDATED_RECORD": "РЕДАКТИРУЕМАЯ ЗАПИСЬ",
+    "REC_SMENA": "смена",
+    "REC_DISCRIPTION": "Описание:",
+    "REC_LOCATION": "Местоположение:",
+    "REC_REST": "остаток:",
+    "REC_STATUS": "Статус:",
+    "REC_SAVE_RECORD": "СОХРАНИТЬ ЗАПИСЬ",
+    "REC_UPDATE_RECORD": "ОБНОВИТЬ ЗАПИСЬ"
+}
