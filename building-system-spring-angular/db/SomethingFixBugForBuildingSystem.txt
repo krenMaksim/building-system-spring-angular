@@ -1,0 +1,22 @@
+ADD FEATURE  INTO ATOM'S EXAMPLE
+$scope.$watch("updatedRecord.surnameInitials", function(newSurname) {
+            let usersArray = $scope.users;
+
+            if (usersArray === undefined) {
+                return;
+            }          
+         
+            for (let i = 0; i < Object.keys(usersArray).length; i++) {
+                let userInitials = usersArray[i].surnameInitials;
+                if (newSurname === userInitials) {
+                    $scope.updatedRecord.role = usersArray[i].role;
+                    $scope.updatedRecord.userId = usersArray[i].id;
+                    break;
+                }
+            }
+        });   
+		FIX BAG WITH WARNING
+		 <tr>
+            <th colspan="8">{{tableHeader | translate }} <b ng-repeat="report in responseReport" style="color:red">{{report}}</b></th>
+        </tr>
+
