@@ -3,7 +3,7 @@ agent any
        stages {
         stage('Build') { 
             steps {
-                sh 'mvn -B -DskipTests clean package' 
+                sh 'cd ./building-system-spring-angular; mvn -B -DskipTests clean package' 
             }
         }
     }
