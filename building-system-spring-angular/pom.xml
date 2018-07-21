@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -18,29 +19,78 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<progect.version>0.0.1-SNAPSHOT</progect.version>
 		<java.version>1.8</java.version>
-		
+
 		<spring.version>5.0.7.RELEASE</spring.version>
-		
+
 		<mysql.version>5.1.40</mysql.version>
 		<dozer.version>5.4.0</dozer.version>
 		<servlet.version>3.1.0</servlet.version>
 		<jsp.version>2.3.1</jsp.version>
-		<jstl.version>1.2</jstl.version>		
+		<jstl.version>1.2</jstl.version>
 		<hibernate-validator.version>5.1.1.Final</hibernate-validator.version>
-		<hibernate.version> 5.2.10.Final</hibernate.version>		
+		<hibernate.version> 5.2.10.Final</hibernate.version>
 		<jackson.version>2.9.6</jackson.version>
 		<springframework.security.version>4.2.3.RELEASE</springframework.security.version>
-		<jboss.logging.version>3.3.0.Final</jboss.logging.version>		
+		<jboss.logging.version>3.3.0.Final</jboss.logging.version>
+
+		<!--JUnit 5 -->
+		<junit.jupiter.version>5.0.1</junit.jupiter.version>
+		<junit.platform.version>1.0.1</junit.platform.version>
+		<!--end JUnit 5 -->
 	</properties>
 
-	<dependencies>		
+	<dependencies>
 		<dependency>
 			<groupId>org.jboss.logging</groupId>
 			<artifactId>jboss-logging</artifactId>
 			<version>${jboss.logging.version}</version>
-		</dependency>		
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!--JUnit 5 -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>${junit.jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit.jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId>
+			<version>${junit.jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-launcher</artifactId>
+			<version>${junit.platform.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apiguardian</groupId>
+			<artifactId>apiguardian-api</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
+		<!--end JUnit 5 -->
 	</dependencies>
-	
+
 	<build>
 		<finalName>building-system</finalName>
 		<plugins>
@@ -52,6 +102,28 @@
 					<source>${java.version}</source>
 					<target>${java.version}</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<configuration>
+					<includes>
+						<include>**/Test*.java</include>
+						<include>**/*Test.java</include>
+						<include>**/*Tests.java</include>
+						<include>**/*TestCase.java</include>
+					</includes>
+					<properties>
+						<excludeTags>slow</excludeTags>
+					</properties>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.junit.platform</groupId>
+						<artifactId>junit-platform-surefire-provider</artifactId>
+						<version>${junit.platform.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
