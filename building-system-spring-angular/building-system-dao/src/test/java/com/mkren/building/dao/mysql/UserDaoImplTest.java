@@ -16,4 +16,10 @@ class UserDaoImplTest extends AbstractDaoTest {
 	       .forEach(i -> System.out.println(i));
     }
 
+    @Test
+    void test2() {
+	userDao.loadAllUsers()
+	       .forEach(i -> System.out.println(i));
+    }
+
 }
