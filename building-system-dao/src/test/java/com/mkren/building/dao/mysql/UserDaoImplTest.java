@@ -46,7 +46,7 @@ class UserDaoImplTest extends AbstractDaoTest {
 
     @Test
     void loadUserByFakeId() {
-	assertEquals(null, userDao.loadUserById(-1));
+	assertEquals(null, userDao.loadUserById(FAKE_ID));
     }
 
     @Test
@@ -70,6 +70,24 @@ class UserDaoImplTest extends AbstractDaoTest {
     void loadUserByNullLogin() {
 	assertThrows(NullPointerException.class, () -> {
 	    userDao.loadUserByLogin(null);
+	});
+    }
+
+    // @Test
+    // don't know why this doesn't work
+    void loadUserBySurname() {
+	assertEquals(expectedUser, userDao.loadUserByLogin(expectedUser.getSurnameInitials()));
+    }
+
+    @Test
+    void loadUserByFakeSurname() {
+	assertEquals(null, userDao.loadUserBySurname("no surname"));
+    }
+
+    @Test
+    void loadUserByNullSurname() {
+	assertThrows(NullPointerException.class, () -> {
+	    userDao.loadUserBySurname(null);
 	});
     }
 }

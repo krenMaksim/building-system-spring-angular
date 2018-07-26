@@ -1,7 +1,9 @@
 package com.mkren.building.dao.mysql;
 
 import java.util.List;
+import java.util.Objects;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
@@ -12,36 +14,46 @@ import com.mkren.building.entity.SmetaEntity;
 @Repository("smetaDao")
 public class SmetaDaoImpl extends BaseDao implements SmetaDAO {
 
-	@Override
-	public List<SmetaEntity> loadAllSmeta() {
-		String query = "SELECT s FROM SmetaEntity s";
+    @Override
+    public List<SmetaEntity> loadAllSmeta() {
+	return manager.createQuery("SELECT s FROM SmetaEntity s", SmetaEntity.class)
+	              .getResultList();
+    }
 
-		return manager.createQuery(query, SmetaEntity.class).getResultList();
+    @Override
+    public SmetaEntity loadSmetaById(Integer smetaId) {
+	Objects.requireNonNull(smetaId);
+
+	return manager.find(SmetaEntity.class, smetaId);
+    }
+
+    @Override
+    public SmetaEntity loadSmetaByPp(Integer smetaPp) {
+	Objects.requireNonNull(smetaPp);
+
+	Query query = manager.createQuery("SELECT s FROM SmetaEntity s WHERE s.pp = :smetaPp");
+	query.setParameter("smetaPp", smetaPp);
+
+	try {
+	    return (SmetaEntity) query.getSingleResult();
+	} catch (NoResultException e) {
+	    return null;
 	}
+    }
 
-	@Override
-	public SmetaEntity loadSmetaById(Integer smetaId) {
-		return manager.find(SmetaEntity.class, smetaId);
-	}
+    @Override
+    public Double getRestFromVolumesById(Integer smetaId) {
+	Objects.requireNonNull(smetaId);
 
-	@Override
-	public SmetaEntity loadSmetaByPp(Integer smetaPp) {
-		Query query = manager.createQuery("SELECT s FROM SmetaEntity s WHERE s.pp = :smetaPp");
-		query.setParameter("smetaPp", smetaPp);
+	String sql = "" +
+	        "SELECT ROUND(sm.kolVo - SUM(COALESCE(mag.volume, 0)), 2) " +
+	        "FROM SmetaEntity sm LEFT OUTER JOIN MagazineEntity mag " +
+	        "ON sm.id = mag.smeta.id " +
+	        "WHERE sm.id=:smetaId ";
 
-		return (SmetaEntity) query.getSingleResult();
-	}
+	Query query = manager.createQuery(sql);
+	query.setParameter("smetaId", smetaId);
 
-	@Override
-	public Double getRestFromVolumesById(Integer smetaId) {
-		String select = "SELECT ROUND(sm.kolVo - SUM(COALESCE(mag.volume, 0)), 2) ";
-		String from = "FROM SmetaEntity sm LEFT OUTER JOIN MagazineEntity mag ";
-		String on = "ON sm.id = mag.smeta.id ";
-		String where = "WHERE sm.id=:smetaId ";
-
-		Query query = manager.createQuery(select + from + on + where);
-		query.setParameter("smetaId", smetaId);
-
-		return (Double) query.getSingleResult();
-	}
+	return (Double) query.getSingleResult();
+    }
 }

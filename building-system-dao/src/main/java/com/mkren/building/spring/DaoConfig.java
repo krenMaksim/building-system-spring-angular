@@ -1,5 +1,7 @@
 package com.mkren.building.spring;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
@@ -32,15 +34,15 @@ public class DaoConfig {
     // }
 
     @Bean
-    public static DataSource dataSource() {
+    public DataSource dataSource() {
 	MysqlDataSource dataSource = new MysqlDataSource();
 
-	// Set dataSource Properties
 	dataSource.setServerName("localhost");
 	dataSource.setPortNumber(3306);
 	dataSource.setDatabaseName("building_system");
 	dataSource.setUser("root");
 	dataSource.setPassword("root");
+	dataSource.setCharacterEncoding(StandardCharsets.UTF_8.name());
 	return dataSource;
     }
 

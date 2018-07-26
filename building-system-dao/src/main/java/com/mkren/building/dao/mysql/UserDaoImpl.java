@@ -3,6 +3,7 @@ package com.mkren.building.dao.mysql;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
@@ -15,9 +16,7 @@ public class UserDaoImpl extends BaseDao implements UserDAO {
 
     @Override
     public List<UserEntity> loadAllUsers() {
-	String query = "SELECT u FROM UserEntity u";
-
-	return manager.createQuery(query, UserEntity.class)
+	return manager.createQuery("SELECT u FROM UserEntity u", UserEntity.class)
 	              .getResultList();
     }
 
@@ -35,14 +34,24 @@ public class UserDaoImpl extends BaseDao implements UserDAO {
 	Query query = manager.createQuery("SELECT u FROM UserEntity u WHERE u.login = :login");
 	query.setParameter("login", login);
 
-	return (UserEntity) query.getSingleResult();
+	try {
+	    return (UserEntity) query.getSingleResult();
+	} catch (NoResultException e) {
+	    return null;
+	}
     }
 
     @Override
     public UserEntity loadUserBySurname(String surname) {
+	Objects.requireNonNull(surname);
+
 	Query query = manager.createQuery("SELECT u FROM UserEntity u WHERE u.surnameInitials = :surname");
 	query.setParameter("surname", surname);
 
-	return (UserEntity) query.getSingleResult();
+	try {
+	    return (UserEntity) query.getSingleResult();
+	} catch (NoResultException e) {
+	    return null;
+	}
     }
 }

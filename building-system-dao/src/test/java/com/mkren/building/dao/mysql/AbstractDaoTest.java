@@ -10,4 +10,8 @@ import com.mkren.building.spring.DaoConfig;
 @ContextConfiguration(classes = { DaoConfig.class })
 abstract class AbstractDaoTest {
 
+    static final String RECREATE_DB_SQL = "/building_system.sql";
+
+    static final Integer FAKE_ID = -1;
+
 }
