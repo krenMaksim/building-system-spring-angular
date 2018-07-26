@@ -1,80 +1,37 @@
 package com.mkren.building.spring;
 
-import java.nio.charset.StandardCharsets;
-
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Import;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
-
 @Configuration
+@Import(DataSourceConfig.class)
 @ComponentScan("com.mkren.building.dao.mysql")
 @EnableTransactionManagement
 public class DaoConfig {
-    public static final String TEST_PROFILE = "test";
-
     private static final String PERSISTENCE_UNIT_NAME = "building_system_db";
-    @SuppressWarnings("unused")
-    private static final String JNDI_RESOURCE_LINK = "java:comp/env/jdbc/building_system_resource";
 
-    // @Bean
-    // DataSource dataSource() {
-    // DataSource dataSource = null;
-    // JndiTemplate jndi = new JndiTemplate();
-    // try {
-    // dataSource = jndi.lookup(JNDI_RESOURCE_LINK, DataSource.class);
-    // } catch (NamingException e) {
-    // throw new RuntimeException("NamingException for java:comp/env/jdbc/...", e);
-    // }
-    // return dataSource;
-    // }
-
-    @Bean("dataSource")
-    @Profile("default")
-    public DataSource dataSource() {
-	MysqlDataSource dataSource = new MysqlDataSource();
-
-	dataSource.setServerName("localhost");
-	dataSource.setPortNumber(3306);
-	dataSource.setDatabaseName("building_system");
-	dataSource.setUser("root");
-	dataSource.setPassword("root");
-	dataSource.setCharacterEncoding(StandardCharsets.UTF_8.name());
-	return dataSource;
-    }
-
-    @Bean("dataSource")
-    @Profile(TEST_PROFILE)
-    public DataSource dataSourceTest() {
-	MysqlDataSource dataSource = new MysqlDataSource();
-
-	dataSource.setServerName("localhost");
-	dataSource.setPortNumber(3306);
-	dataSource.setDatabaseName("building_system_test");
-	dataSource.setUser("root");
-	dataSource.setPassword("root");
-	dataSource.setCharacterEncoding(StandardCharsets.UTF_8.name());
-	return dataSource;
-    }
+    @Autowired
+    private DataSource dataSource;
 
     @Bean(name = "entityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean getEntityManagerFactory() {
+    LocalContainerEntityManagerFactoryBean getEntityManagerFactory() {
 	LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-	emf.setDataSource(dataSource());
+	emf.setDataSource(dataSource);
 	emf.setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
 
 	return emf;
     }
 
     @Bean
-    public JpaTransactionManager jpaTransMan() {
+    JpaTransactionManager jpaTransMan() {
 	JpaTransactionManager jtManager = new JpaTransactionManager(getEntityManagerFactory().getObject());
 	return jtManager;
     }

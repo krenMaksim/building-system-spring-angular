@@ -6,10 +6,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.mkren.building.spring.DaoConfig;
+import com.mkren.building.spring.DataSourceConfig;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { DaoConfig.class })
-@ActiveProfiles(DaoConfig.TEST_PROFILE)
+@ActiveProfiles(DataSourceConfig.TEST_PROFILE)
 abstract class AbstractDaoTest {
 
     static final String RECREATE_DB_SQL = "/building_system_test.sql";
