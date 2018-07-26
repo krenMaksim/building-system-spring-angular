@@ -1,9 +1,9 @@
-DROP SCHEMA IF EXISTS building_system;
+DROP SCHEMA IF EXISTS building_system_test;
 
-CREATE SCHEMA IF NOT EXISTS building_system
+CREATE SCHEMA IF NOT EXISTS building_system_test
 CHARACTER SET 'utf8';
 
-USE building_system;
+USE building_system_test;
 
 /*CREATE TABLE FOR spring security*/
 CREATE TABLE users (
@@ -23,14 +23,14 @@ CREATE TABLE authorities (
   CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (username)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
-INSERT INTO  building_system.users
+INSERT INTO  building_system_test.users
 VALUES
 	('Petrov','dfssf35',1),
 	('Sidor','lkljsdf95',1),
 	('Gleb','dfsdflj',1),
 	('Krivor','df56kl',1);
 
-INSERT INTO  building_system.authorities
+INSERT INTO  building_system_test.authorities
 VALUES 
 	(1,'Petrov','ROLE_USER'),
 	(2,'Sidor','ROLE_USER'),
@@ -48,7 +48,7 @@ CREATE TABLE users_(
 	del_status ENUM('активен', 'банн', 'удален') default 'активен'
 );
 
-INSERT INTO building_system.users_ (login, password, surname_initials, role) 
+INSERT INTO building_system_test.users_ (login, password, surname_initials, role) 
 VALUES 
 	('Petrov','dfssf35','Петров И.И.','заказчик'),
 	('Sidor','lkljsdf95','Сидоров В.К.','гл.инженер'),
@@ -66,7 +66,7 @@ CREATE TABLE smeta(
 	kol_vo DOUBLE NOT NULL
 );
 
-INSERT INTO building_system.smeta (pp, obosnovanie, naimenovanie, ed_izm, kol_vo) 
+INSERT INTO building_system_test.smeta (pp, obosnovanie, naimenovanie, ed_izm, kol_vo) 
 VALUES 
 	(2,'Е11-2-1','УСТРОЙСТВО УПЛОТНЯЕМЫХ ТРАМБОВКАМИ ПОДСТИЛАЮЩИХ СЛОЕВ ПЕСЧАНЫХ','М3',188.8),
 	(3,'Е12-2-122','УСТРОЙСТВО ЛЕНТОЧНЫХ ФУНДАМЕНТОВ ЖЕЛЕЗОБЕТОННЫХ ИЗ БЕТОНА КЛАССА С12/15','М3',444.3),
@@ -95,7 +95,7 @@ CREATE TABLE magazine(
 		ON UPDATE RESTRICT		
 );
 
-INSERT INTO building_system.magazine (id_smeta, location, date_, weather, volume, controle, id_user) 
+INSERT INTO building_system_test.magazine (id_smeta, location, date_, weather, volume, controle, id_user) 
 VALUES 
 	(2, 'в/о А-Б;1-5 на отм. +5.000','2017-03-21', 'ясно 25 С', 50, 'соответствует', 3),
 	(2, 'в/о С-Д;2-3 на отм. 0.000','2017-02-21', 'дождь 5 С', 25, 'соответствует', 4),
@@ -120,7 +120,7 @@ CREATE TABLE records_archive(
 		ON UPDATE RESTRICT	
 );
 
-INSERT INTO building_system.records_archive (id_mag, date_, name_column, old_record, id_user) 
+INSERT INTO building_system_test.records_archive (id_mag, date_, name_column, old_record, id_user) 
 VALUES 
 	(1, '2017-03-25','location', 'в/о С-Д;2-3 на отм. 0.000', 2),
 	(2, '2017-04-05','date_', '2017-01-15', 2),
