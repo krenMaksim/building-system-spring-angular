@@ -1,4 +1,4 @@
-package com.mkren.building.repo;
+package com.mkren.building.dao.mysql;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.mkren.building.entity.UserEntity;
 
-public interface UserDaoSpringData extends CrudRepository<UserEntity, Integer> {
+interface UserDaoSpringData extends CrudRepository<UserEntity, Integer> {
 
     @Override
     List<UserEntity> findAll();

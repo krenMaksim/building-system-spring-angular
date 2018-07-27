@@ -1,4 +1,4 @@
-package com.mkren.building.repo;
+package com.mkren.building.dao.mysql;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.mkren.building.entity.SmetaEntity;
 
-public interface SmetaDaoSpringData extends CrudRepository<SmetaEntity, Integer> {
+interface SmetaDaoSpringData extends CrudRepository<SmetaEntity, Integer> {
     @Override
     List<SmetaEntity> findAll();
 

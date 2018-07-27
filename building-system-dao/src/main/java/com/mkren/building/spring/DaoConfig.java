@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @Import(DataSourceConfig.class)
-@EnableJpaRepositories("com.mkren.building.repo")
+@EnableJpaRepositories("com.mkren.building.dao.mysql")
 @ComponentScan("com.mkren.building.dao.mysql")
 @EnableTransactionManagement
 public class DaoConfig {
@@ -29,7 +29,7 @@ public class DaoConfig {
     private DataSource dataSource;
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 
 	HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 	vendorAdapter.setGenerateDdl(true);
@@ -48,7 +48,7 @@ public class DaoConfig {
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+    PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
 
 	JpaTransactionManager txManager = new JpaTransactionManager();
 	txManager.setEntityManagerFactory(entityManagerFactory);
