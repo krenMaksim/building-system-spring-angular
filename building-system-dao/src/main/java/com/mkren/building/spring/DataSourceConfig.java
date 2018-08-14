@@ -42,6 +42,14 @@ public class DataSourceConfig {
 	return dataSource;
     }
 
+    // @Bean("dataSource")
+    // @Profile(TEST_PROFILE)
+    // DataSource dataSourceTest() {
+    // MysqlDataSource dataSource = (MysqlDataSource) dataSource();
+    // dataSource.setDatabaseName("building_system_test");
+    // return dataSource;
+    // }
+
     @Bean("dataSource")
     @Profile(TEST_PROFILE)
     DataSource dataSourceTest() {
