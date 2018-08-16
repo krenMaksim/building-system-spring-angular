@@ -6,6 +6,8 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
@@ -53,8 +55,11 @@ public class DataSourceConfig {
     @Bean("dataSource")
     @Profile(TEST_PROFILE)
     DataSource dataSourceTest() {
-	MysqlDataSource dataSource = (MysqlDataSource) dataSource();
-	dataSource.setDatabaseName("building_system_test");
-	return dataSource;
+	return new EmbeddedDatabaseBuilder().generateUniqueName(true)
+	                                    .setType(EmbeddedDatabaseType.H2)
+	                                    .setScriptEncoding(StandardCharsets.UTF_8.name())
+	                                    .ignoreFailedDrops(true)
+	                                    .addScript("building_system_test_h2.sql")
+	                                    .build();
     }
 }
