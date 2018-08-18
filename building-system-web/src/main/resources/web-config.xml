@@ -19,7 +19,4 @@
         <property name="prefix" value="/WEB-INF/pages/" />
         <property name="suffix" value=".jsp" />        
     </bean>
-    
-    <bean id="springSecurityFilterChain" class="org.springframework.web.filter.DelegatingFilterProxy">
-     </bean>
 </beans>
