@@ -1,40 +1,36 @@
 package com.mkren.building.spring;
 
-import javax.servlet.Filter;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRegistration;
 
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.servlet.support.AbstractDispatcherServletInitializer;
+import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.web.servlet.DispatcherServlet;
 
-public class MyWebAppInitializer extends AbstractDispatcherServletInitializer {
-
-    @Override
-    protected WebApplicationContext createRootApplicationContext() {
-	return null;
-    }
+public class MyWebAppInitializer implements WebApplicationInitializer {
 
     @Override
-    protected WebApplicationContext createServletApplicationContext() {
-	XmlWebApplicationContext cxt = new XmlWebApplicationContext();
-	cxt.setConfigLocation("classpath:app-config.xml");
-	return cxt;
-    }
+    public void onStartup(ServletContext container) {
+	XmlWebApplicationContext appContext = new XmlWebApplicationContext();
+	appContext.setConfigLocation("classpath:app-config.xml");
 
-    @Override
-    protected String[] getServletMappings() {
-	return new String[] { "/" };
-    }
+	ServletRegistration.Dynamic registration = container.addServlet("dispatcher", new DispatcherServlet(appContext));
+	registration.setLoadOnStartup(1);
+	registration.addMapping("/");
 
-    @Override
-    protected Filter[] getServletFilters() {
 	CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
 	characterEncodingFilter.setEncoding("UTF-8");
 	characterEncodingFilter.setForceEncoding(true);
 
-	// DelegatingFilterProxy springSecurityFilterChain = new
-	// DelegatingFilterProxy();
+	container.addFilter("encodingFilter", characterEncodingFilter)
+	         .addMappingForUrlPatterns(null, false, "/*");
 
-	return new Filter[] { characterEncodingFilter };
+	DelegatingFilterProxy springSecurityFilterChain = new DelegatingFilterProxy();
+
+	container.addFilter("springSecurityFilterChain", springSecurityFilterChain)
+	         .addMappingForUrlPatterns(null, false, "/*");
     }
+
 }
