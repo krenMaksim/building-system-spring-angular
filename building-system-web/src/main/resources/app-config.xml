@@ -11,6 +11,6 @@
 	<context:annotation-config/>
     <bean class="com.mkren.building.spring.ServiceConfig"/> 
       
-    <import resource="./security-config.xml"/>  
+  <import resource="./security-config.xml"/> 
     <import resource="./web-config.xml"/>  	
 </beans>

@@ -1,15 +1,22 @@
-package com.mkren.building.spring;
+package com.mkren.building;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
+import org.springframework.boot.Banner;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
-public class MyWebAppInitializer implements WebApplicationInitializer {
+@SpringBootApplication
+@EnableWebSecurity
+public class Application extends SpringBootServletInitializer implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext container) {
@@ -33,4 +40,17 @@ public class MyWebAppInitializer implements WebApplicationInitializer {
 	         .addMappingForUrlPatterns(null, false, "/*");
     }
 
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+	return configureApplication(builder);
+    }
+
+    public static void main(String[] args) {
+	configureApplication(new SpringApplicationBuilder()).run(args);
+    }
+
+    private static SpringApplicationBuilder configureApplication(SpringApplicationBuilder builder) {
+	return builder.sources(Application.class)
+	              .bannerMode(Banner.Mode.OFF);
+    }
 }
