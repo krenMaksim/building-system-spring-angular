@@ -1,5 +1,7 @@
 package com.mkren.building.spring;
 
+import javax.servlet.Filter;
+
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -15,7 +17,7 @@ public class MyWebAppInitializer extends AbstractDispatcherServletInitializer {
     @Override
     protected WebApplicationContext createServletApplicationContext() {
 	XmlWebApplicationContext cxt = new XmlWebApplicationContext();
-	cxt.setConfigLocation("./app-config.xml");
+	cxt.setConfigLocation("classpath:app-config.xml");
 	return cxt;
     }
 
@@ -26,6 +28,13 @@ public class MyWebAppInitializer extends AbstractDispatcherServletInitializer {
 
     @Override
     protected Filter[] getServletFilters() {
-	return new Filter[] { new HiddenHttpMethodFilter(), new CharacterEncodingFilter() };
+	CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+	characterEncodingFilter.setEncoding("UTF-8");
+	characterEncodingFilter.setForceEncoding(true);
+
+	// DelegatingFilterProxy springSecurityFilterChain = new
+	// DelegatingFilterProxy();
+
+	return new Filter[] { characterEncodingFilter };
     }
 }
