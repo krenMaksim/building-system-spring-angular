@@ -11,5 +11,5 @@ For application start:
 				password="root" 
 				type="javax.sql.DataSource" 
 				url="jdbc:mysql://localhost:3306/building_system" 
-				username="root"
+				username="root"  
 		/>
