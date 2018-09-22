@@ -15,9 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
-import com.mkren.building.TestUtil;
 import com.mkren.building.dao.RecordsArchiveDAO;
 import com.mkren.building.entity.RecordsArchiveEntity;
+import com.mkren.building.util.JsonUtil;
 
 class RecordsArchiveDaoImplTest extends AbstractDaoTest {
 
@@ -51,7 +51,7 @@ class RecordsArchiveDaoImplTest extends AbstractDaoTest {
     @Test
     @Sql(scripts = AbstractDaoTest.RECREATE_DB_SQL, executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     void storeRecordsArchive() {
-	RecordsArchiveEntity entity = TestUtil.makeCopy(expectedRecordsArchiveEntity);
+	RecordsArchiveEntity entity = JsonUtil.makeCopy(expectedRecordsArchiveEntity);
 	entity.setId(null);
 
 	RecordsArchiveEntity storedEntity = recordsArchiveDao.storeRecordsArchive(entity);

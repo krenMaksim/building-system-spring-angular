@@ -1,10 +1,10 @@
-package com.mkren.building;
+package com.mkren.building.util;
 
 import com.google.gson.Gson;
 
-public class TestUtil {
+public class JsonUtil {
 
-    private TestUtil() {
+    private JsonUtil() {
 	throw new AssertionError();
     }
 

@@ -1,44 +1,101 @@
 package com.mkren.building.service.impl;
 
-import org.junit.jupiter.api.BeforeEach;
+import static io.github.benas.randombeans.api.EnhancedRandom.random;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
+
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mkren.building.bean.UserBean;
+import com.mkren.building.dao.UserDAO;
 import com.mkren.building.entity.UserEntity;
 import com.mkren.building.service.AbstractServiceTest;
 import com.mkren.building.service.AvtorizationService;
+import com.mkren.building.service.generator.BeanGenerator;
+import com.mkren.building.util.JsonUtil;
 
 class AvtorizationServiceImplTest extends AbstractServiceTest {
 
     @Autowired
     private AvtorizationService avtorizationService;
 
-    private UserEntity userEntity;
+    @Autowired
+    private UserDAO userDao;
 
-    private UserBean userBean;
+    @Autowired
+    private BeanGenerator beanGenerator;
 
-    @BeforeEach
-    private void init() {
-	userEntity = new UserEntity();
-	userEntity.setId(1);
-	userEntity.setLogin("Petrov");
-	userEntity.setPassword("dfssf35");
-	userEntity.setSurnameInitials("Петров И.И.");
-	userEntity.setRole("заказчик");
-	userEntity.setDelStatus("активен");
+    private static final UserEntity userEntity = random(UserEntity.class);
+    private static String userLogin = userEntity.getLogin();
+    private static Integer userId = userEntity.getId();
 
-	userBean = new UserBean();
+    @Test
+    void loadUserBeanByLogin() {
+	when(userDao.loadUserByLogin(userLogin)).thenReturn(generateUserEntity());
+	when(beanGenerator.creatUserBean(generateUserEntity())).thenReturn(generateUserBean());
+
+	assertEquals(generateUserBean(), avtorizationService.loadUserBeanByLogin(userLogin));
+    }
+
+    @Test
+    void loadUserBeanByNullLogin() {
+	when(userDao.loadUserByLogin(null)).thenThrow(NullPointerException.class);
+
+	assertThrows(NullPointerException.class, () -> {
+	    avtorizationService.loadUserBeanByLogin(null);
+	});
+    }
+
+    // SEE THIS
+    @Test
+    void loadUserBeanByFakeLogin() {
+	String fakeLogin = random(String.class);
+
+	when(userDao.loadUserByLogin(fakeLogin)).thenReturn(null);
+	when(beanGenerator.creatUserBean(null)).thenReturn(null);
+
+	assertEquals(null, avtorizationService.loadUserBeanByLogin(fakeLogin));
+    }
+
+    @Test
+    void loadUserBean() {
+	when(userDao.loadUserById(userId)).thenReturn(generateUserEntity());
+	when(beanGenerator.creatUserBean(generateUserEntity())).thenReturn(generateUserBean());
+
+	assertEquals(generateUserBean(), avtorizationService.loadUserBean(userId));
+    }
+
+    @Test
+    void loadAllUserBean() {
+	int listSize = 10;
+	List<UserEntity> userEntiyList = Collections.nCopies(listSize, generateUserEntity());
+	List<UserBean> userBeanList = Collections.nCopies(listSize, generateUserBean());
+
+	when(userDao.loadAllUsers()).thenReturn(userEntiyList);
+	when(beanGenerator.creatUserBean(generateUserEntity())).thenReturn(generateUserBean());
+
+	assertEquals(userBeanList, avtorizationService.loadAllUserBean());
+    }
+
+    static UserEntity generateUserEntity() {
+	return JsonUtil.makeCopy(userEntity);
+    }
+
+    static UserBean generateUserBean() {
+	UserBean userBean = new UserBean();
+
 	userBean.setId(userEntity.getId());
 	userBean.setLogin(userEntity.getLogin());
 	userBean.setPassword(userEntity.getPassword());
 	userBean.setSurnameInitials(userEntity.getSurnameInitials());
 	userBean.setRole(userEntity.getRole());
 
+	return userBean;
     }
 
-    @Test
-    void loadUserBeanByLogin() {
-	avtorizationService.loadUserBeanByLogin("null");
-    }
 }

@@ -15,9 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
-import com.mkren.building.TestUtil;
 import com.mkren.building.dao.MagazineDAO;
 import com.mkren.building.entity.MagazineEntity;
+import com.mkren.building.util.JsonUtil;
 
 class MagazineDaoImplTest extends AbstractDaoTest {
 
@@ -61,7 +61,7 @@ class MagazineDaoImplTest extends AbstractDaoTest {
     @Test
     @Sql(scripts = AbstractDaoTest.RECREATE_DB_SQL, executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     void storeMagazine() {
-	MagazineEntity entity = TestUtil.makeCopy(expectedMagazineEntity);
+	MagazineEntity entity = JsonUtil.makeCopy(expectedMagazineEntity);
 	entity.setId(null);
 
 	MagazineEntity storedEntity = magazineDao.storeMagazine(entity);
@@ -81,7 +81,7 @@ class MagazineDaoImplTest extends AbstractDaoTest {
     @Test
     @Sql(scripts = AbstractDaoTest.RECREATE_DB_SQL, executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     void updateMagazine() {
-	MagazineEntity entity = TestUtil.makeCopy(expectedMagazineEntity);
+	MagazineEntity entity = JsonUtil.makeCopy(expectedMagazineEntity);
 	entity.setConditions("TEST");
 
 	magazineDao.updateMagazine(entity);
@@ -98,7 +98,7 @@ class MagazineDaoImplTest extends AbstractDaoTest {
 
     @Test
     void updateMagazineNullId() {
-	MagazineEntity entity = TestUtil.makeCopy(expectedMagazineEntity);
+	MagazineEntity entity = JsonUtil.makeCopy(expectedMagazineEntity);
 	entity.setId(null);
 
 	assertThrows(NullPointerException.class, () -> {
