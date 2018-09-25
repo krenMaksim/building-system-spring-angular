@@ -51,7 +51,6 @@ class AvtorizationServiceImplTest extends AbstractServiceTest {
 	});
     }
 
-    // SEE THIS
     @Test
     void loadUserBeanByFakeLogin() {
 	String fakeLogin = random(String.class);
@@ -68,6 +67,25 @@ class AvtorizationServiceImplTest extends AbstractServiceTest {
 	when(beanGenerator.creatUserBean(generateUserEntity())).thenReturn(generateUserBean());
 
 	assertEquals(generateUserBean(), avtorizationService.loadUserBean(userId));
+    }
+
+    @Test
+    void loadBeanByNullId() {
+	when(userDao.loadUserById(null)).thenThrow(NullPointerException.class);
+
+	assertThrows(NullPointerException.class, () -> {
+	    avtorizationService.loadUserBean(null);
+	});
+    }
+
+    @Test
+    void loadUserBeanByFakeId() {
+	Integer fakeId = random(Integer.class);
+
+	when(userDao.loadUserById(fakeId)).thenReturn(null);
+	when(beanGenerator.creatUserBean(null)).thenReturn(null);
+
+	assertEquals(null, avtorizationService.loadUserBean(fakeId));
     }
 
     @Test
