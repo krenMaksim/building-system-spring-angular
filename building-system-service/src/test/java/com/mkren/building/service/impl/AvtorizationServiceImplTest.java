@@ -9,37 +9,38 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mockito;
 
 import com.mkren.building.bean.UserBean;
 import com.mkren.building.dao.UserDAO;
 import com.mkren.building.entity.UserEntity;
-import com.mkren.building.service.AbstractServiceTest;
 import com.mkren.building.service.AvtorizationService;
 import com.mkren.building.service.generator.BeanGenerator;
 import com.mkren.building.util.JsonUtil;
 
-class AvtorizationServiceImplTest extends AbstractServiceTest {
+class AvtorizationServiceImplTest {
 
-    @Autowired
-    private AvtorizationService avtorizationService;
+    private final AvtorizationService avtorizationService;
 
-    @Autowired
-    private UserDAO userDao;
-
-    @Autowired
-    private BeanGenerator beanGenerator;
+    private final UserDAO userDao;
+    private final BeanGenerator beanGenerator;
 
     private static final UserEntity userEntity = random(UserEntity.class);
-    private static String userLogin = userEntity.getLogin();
-    private static Integer userId = userEntity.getId();
+    private static final String USER_LOGIN = userEntity.getLogin();
+    private static final Integer USER_ID = userEntity.getId();
+
+    AvtorizationServiceImplTest() {
+	this.userDao = Mockito.mock(UserDAO.class);
+	this.beanGenerator = Mockito.mock(BeanGenerator.class);
+	this.avtorizationService = new AvtorizationServiceImpl(this.userDao, this.beanGenerator);
+    }
 
     @Test
     void loadUserBeanByLogin() {
-	when(userDao.loadUserByLogin(userLogin)).thenReturn(generateUserEntity());
+	when(userDao.loadUserByLogin(USER_LOGIN)).thenReturn(generateUserEntity());
 	when(beanGenerator.creatUserBean(generateUserEntity())).thenReturn(generateUserBean());
 
-	assertEquals(generateUserBean(), avtorizationService.loadUserBeanByLogin(userLogin));
+	assertEquals(generateUserBean(), avtorizationService.loadUserBeanByLogin(USER_LOGIN));
     }
 
     @Test
@@ -63,10 +64,10 @@ class AvtorizationServiceImplTest extends AbstractServiceTest {
 
     @Test
     void loadUserBean() {
-	when(userDao.loadUserById(userId)).thenReturn(generateUserEntity());
+	when(userDao.loadUserById(USER_ID)).thenReturn(generateUserEntity());
 	when(beanGenerator.creatUserBean(generateUserEntity())).thenReturn(generateUserBean());
 
-	assertEquals(generateUserBean(), avtorizationService.loadUserBean(userId));
+	assertEquals(generateUserBean(), avtorizationService.loadUserBean(USER_ID));
     }
 
     @Test
@@ -115,5 +116,4 @@ class AvtorizationServiceImplTest extends AbstractServiceTest {
 
 	return userBean;
     }
-
 }
