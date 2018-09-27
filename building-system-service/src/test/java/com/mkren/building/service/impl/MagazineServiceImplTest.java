@@ -4,6 +4,8 @@ import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+import javax.annotation.PostConstruct;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,24 +13,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.mkren.building.bean.NewRecordBean;
 import com.mkren.building.dao.MagazineDAO;
 import com.mkren.building.entity.MagazineEntity;
+import com.mkren.building.service.AbstractServiceTest;
 import com.mkren.building.service.MagazineService;
 import com.mkren.building.service.generator.BeanGenerator;
 import com.mkren.building.util.JsonUtil;
 
-class MagazineServiceImplTest extends AbstractService {
+class MagazineServiceImplTest extends AbstractServiceTest {
 
-    private final MagazineService magazineService;
-
-    private final MagazineDAO magazineDao;
+    private MagazineService magazineService;
+    private MagazineDAO magazineDao;
 
     @Autowired
     private BeanGenerator beanGenerator;
 
     private static final MagazineEntity magazineEntity = random(MagazineEntity.class);
-
     private static final Integer MAGAZINE_ID = magazineEntity.getId();
 
-    MagazineServiceImplTest() {
+    @PostConstruct
+    void init() {
 	this.magazineDao = Mockito.mock(MagazineDAO.class);
 	this.magazineService = new MagazineServiceImpl(this.magazineDao, this.beanGenerator);
     }
@@ -36,8 +38,7 @@ class MagazineServiceImplTest extends AbstractService {
     @Test
     void getOldRecord() {
 	when(magazineDao.loadMagazineById(MAGAZINE_ID)).thenReturn(generateMagazineEntity());
-	// when(beanGenerator.createNewRecordBean(generateMagazineEntity())).thenReturn(generateNewRecordBean());
-	//
+
 	assertEquals(generateNewRecordBean(), magazineService.getOldRecord(MAGAZINE_ID));
     }
 
@@ -48,17 +49,5 @@ class MagazineServiceImplTest extends AbstractService {
     NewRecordBean generateNewRecordBean() {
 	return beanGenerator.createNewRecordBean(magazineEntity);
     }
-
-    // static NewRecordBean generateNewRecordBean() {
-    // NewRecordBean newRecordBean = new NewRecordBean();
-    //
-    // newRecordBean.setId(userEntity.getId());
-    // newRecordBean.setLogin(userEntity.getLogin());
-    // newRecordBean.setPassword(userEntity.getPassword());
-    // newRecordBean.setSurnameInitials(userEntity.getSurnameInitials());
-    // newRecordBean.setRole(userEntity.getRole());
-    //
-    // return newRecordBean;
-    // }
 
 }
