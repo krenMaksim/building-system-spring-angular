@@ -5,19 +5,19 @@ import java.util.Arrays;
 import org.dozer.DozerBeanMapper;
 
 public class Dozer {
+    // https://www.java-success.com/dozer-with-spring-maven-tutorial/
+    private static DozerBeanMapper getDoser(String... mappingFileUrls) {
+	DozerBeanMapper mapper = new DozerBeanMapper();
+	mapper.setMappingFiles(Arrays.asList(mappingFileUrls));
+	return mapper;
+    }
 
-	private static DozerBeanMapper getDoser(String... mappingFileUrls) {
-		DozerBeanMapper mapper = new DozerBeanMapper();
-		mapper.setMappingFiles(Arrays.asList(mappingFileUrls));
-		return mapper;
-	}
+    public static <T, V> V uneversalConvert(T sourse, Class<V> destClass, Mapping mappingFileUrls) {
 
-	public static <T, V> V uneversalConvert(T sourse, Class<V> destClass, Mapping mappingFileUrls) {
+	DozerBeanMapper mapper = Dozer.getDoser(mappingFileUrls.getPath());
+	V dest = mapper.map(sourse, destClass);
 
-		DozerBeanMapper mapper = Dozer.getDoser(mappingFileUrls.getPath());
-		V dest = mapper.map(sourse, destClass);
-
-		return dest;
-	}
+	return dest;
+    }
 
 }
