@@ -1,7 +1,7 @@
 ;
 (function () {
     'use strict';
-    window.BASE_URL = '//localhost:8080/building-system/';
+    window.BASE_URL = '//localhost:8085/building-system/';
     window.SERVER_PART_URL = '/building-system';
     //window.SERVER_PART_URL = '';
 
