@@ -23,15 +23,11 @@ public abstract class BaseCustomConverter implements CustomConverter {
     @Resource(name = "recordsArchiveDao")
     protected RecordsArchiveDAO archiveDao;
 
-    // @Autowired
-    // protected BeanGenerator beanGenerator;
-
     @Autowired
     protected Mapper defaultDozerMapper;
 
     protected <T, V> V defaultConvert(T sourse, Class<V> destClass) {
 	return defaultDozerMapper.map(sourse, destClass);
-	// return Dozer.uneversalConvert(sourse, destClass, Mapping.DEFAULT);
     }
 
     @Override

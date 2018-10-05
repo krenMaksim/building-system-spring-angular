@@ -23,10 +23,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.mkren.building.bean.MagazineBean;
 import com.mkren.building.bean.NewRecordBean;
 import com.mkren.building.dao.MagazineDAO;
+import com.mkren.building.dao.SmetaDAO;
 import com.mkren.building.dao.UserDAO;
 import com.mkren.building.entity.MagazineEntity;
+import com.mkren.building.entity.SmetaEntity;
+import com.mkren.building.entity.UserEntity;
 import com.mkren.building.service.MagazineService;
 import com.mkren.building.service.generator.BeanGenerator;
 import com.mkren.building.service.impl.MagazineServiceImplTest.MagazineConfig;
@@ -45,11 +49,14 @@ class MagazineServiceImplTest {
 
 	@Bean
 	public UserDAO userDao() {
-
-	    UserDAO userDao = Mockito.mock(UserDAO.class);
-
 	    return Mockito.mock(UserDAO.class);
 	}
+
+	@Bean
+	public SmetaDAO smetaDao() {
+	    return Mockito.mock(SmetaDAO.class);
+	}
+
     }
 
     private MagazineService magazineService;
@@ -61,13 +68,15 @@ class MagazineServiceImplTest {
     @Autowired
     private UserDAO userDao;
 
+    @Autowired
+    private SmetaDAO smetaDao;
+
     private static final MagazineEntity magazineEntity = random(MagazineEntity.class);
     private static final Integer MAGAZINE_ID = magazineEntity.getId();
 
     @PostConstruct
     void init() {
 	this.magazineDao = Mockito.mock(MagazineDAO.class);
-
 	this.magazineService = new MagazineServiceImpl(this.magazineDao, this.beanGenerator);
     }
 
@@ -78,11 +87,9 @@ class MagazineServiceImplTest {
 	assertEquals(generateNewRecordBean(), magazineService.getOldRecord(MAGAZINE_ID));
     }
 
-    // @Test
+    @Test
     void getRecords() {
-	List<MagazineEntity> listEntity = IntStream.range(0, 10)
-	                                           .mapToObj(i -> random(MagazineEntity.class))
-	                                           .collect(Collectors.toList());
+	List<MagazineEntity> listEntity = prepareListEntity();
 
 	Date dateWith = listEntity.stream()
 	                          .min(Comparator.comparing(MagazineEntity::getDate))
@@ -99,14 +106,44 @@ class MagazineServiceImplTest {
 	                                                       .getSurnameInitials())
 	                                  .collect(Collectors.toList());
 
-	listEntity.stream()
-	          .map(entity -> entity.getUser())
-	          .forEach(user -> when(userDao.loadUserById(user.getId())).thenReturn(user));
+	List<MagazineBean> listBean = listEntity.stream()
+	                                        .map(entity -> beanGenerator.createMagazineBean(entity))
+	                                        .collect(Collectors.toList());
+
+	assertEquals(listBean, magazineService.getRecords(dateWith, dateOn, surnames));
+
+    }
+
+    @Test
+    void surnameInitials() {
+	List<MagazineEntity> listEntity = prepareListEntity();
+
+	List<String> surnames = listEntity.stream()
+	                                  .map(entity -> entity.getUser()
+	                                                       .getSurnameInitials())
+	                                  .collect(Collectors.toList());
+
+	assertEquals(surnames, magazineService.surnameInitials());
+
+    }
+
+    private List<MagazineEntity> prepareListEntity() {
+
+	List<MagazineEntity> listEntity = IntStream.range(0, 10)
+	                                           .mapToObj(i -> random(MagazineEntity.class))
+	                                           .collect(Collectors.toList());
+	listEntity.forEach(entity -> {
+
+	    UserEntity user = entity.getUser();
+	    when(userDao.loadUserById(user.getId())).thenReturn(user);
+
+	    SmetaEntity smeta = entity.getSmeta();
+	    when(smetaDao.loadSmetaById(smeta.getId())).thenReturn(smeta);
+	});
 
 	when(magazineDao.loadAllMagazine()).thenReturn(listEntity);
 
-	assertEquals(listEntity, magazineService.getRecords(dateWith, dateOn, surnames));
-
+	return listEntity;
     }
 
     static MagazineEntity generateMagazineEntity() {

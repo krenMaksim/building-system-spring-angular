@@ -21,35 +21,6 @@ import com.mkren.building.service.converter.SmetaCustomConverter;
 @ComponentScan({ "com.mkren.building.service.impl", "com.mkren.building.service.generator" })
 public class ServiceConfig {
 
-    // @Bean
-    // @Profile(DataSourceConfig.TEST_PROFILE)
-    // UserDAO userDao() {
-    // return Mockito.mock(UserDAO.class);
-    // }
-    //
-    // @Bean
-    // @Profile(DataSourceConfig.TEST_PROFILE)
-    // BeanGenerator beanGenerator() {
-    // return Mockito.mock(BeanGenerator.class);
-    // }
-
-    // @Bean(name = "dozerBean")
-    // @Bean
-    // public DozerBeanMapperFactoryBean customDozerMapper() throws IOException {
-    // DozerBeanMapperFactoryBean mapper = new DozerBeanMapperFactoryBean();
-    // Resource[] resources = { new PathMatchingResourcePatternResolver().getResource("classpath*:dozer/dozer_custom_mapping.xml") };
-    // mapper.setMappingFiles(resources);
-    // return mapper;
-    // }
-
-    // @Bean
-    // public DozerBeanMapperFactoryBean defaultDozerMapper() throws IOException {
-    // DozerBeanMapperFactoryBean mapper = new DozerBeanMapperFactoryBean();
-    // Resource[] resources = { new PathMatchingResourcePatternResolver().getResource("classpath*:dozer/dozer_mapping.xml") };
-    // mapper.setMappingFiles(resources);
-    // return mapper;
-    // }
-
     @Autowired
     private MagazineCustomConverter magazineCustomConverter;
 
@@ -75,20 +46,4 @@ public class ServiceConfig {
 
 	return dozerBeanMapper;
     }
-
-    // <bean id="org.dozer.Mapper" class="org.dozer.DozerBeanMapper">
-    // <property name="mappingFiles">
-    // <list>
-    // <value>systempropertymapping1.xml</value>
-    // <value>dozerBeanMapping.xml</value>
-    // <value>injectedCustomConverter.xml</value>
-    // </list>
-    // </property>
-    // <property name="customConverters">
-    // <list>
-    // <ref bean="customConverterTest"/>
-    // </list>
-    // </property>
-    // </bean>
-
 }
