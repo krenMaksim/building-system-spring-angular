@@ -31,6 +31,7 @@ public final class MagazineServiceImpl implements MagazineService {
     @Override
     public NewRecordBean getOldRecord(Integer magazineId) {
 	MagazineEntity magazineEntity = magazineDao.loadMagazineById(magazineId);
+
 	return beanGenerator.createNewRecordBean(magazineEntity);
     }
 

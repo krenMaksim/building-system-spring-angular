@@ -1,5 +1,7 @@
 package com.mkren.building.service.generator;
 
+import java.util.Objects;
+
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,22 +24,32 @@ public class BeanGenerator {
     private Mapper customDozerMapper;
 
     public UserBean creatUserBean(UserEntity entity) {
-	return defaultDozerMapper.map(entity, UserBean.class);
+	return map(defaultDozerMapper, entity, UserBean.class);
     }
 
     public SmetaBean createSmetaBean(SmetaEntity entity) {
-	return customDozerMapper.map(entity, SmetaBean.class);
+	return map(customDozerMapper, entity, SmetaBean.class);
     }
 
     public MagazineBean createMagazineBean(MagazineEntity entity) {
-	return customDozerMapper.map(entity, MagazineBean.class);
+	return map(customDozerMapper, entity, MagazineBean.class);
     }
 
     public MagazineEntity createMagazineEntity(NewRecordBean bean) {
-	return customDozerMapper.map(bean, MagazineEntity.class);
+	return map(customDozerMapper, bean, MagazineEntity.class);
     }
 
     public NewRecordBean createNewRecordBean(MagazineEntity entity) {
-	return customDozerMapper.map(entity, NewRecordBean.class);
+	return map(customDozerMapper, entity, NewRecordBean.class);
+    }
+
+    private static <T, V> T map(Mapper mapper, V entity, Class<T> targetType) {
+	Objects.requireNonNull(targetType);
+
+	if (Objects.isNull(entity)) {
+	    return null;
+	}
+
+	return mapper.map(entity, targetType);
     }
 }

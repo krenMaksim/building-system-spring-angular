@@ -2,6 +2,7 @@ package com.mkren.building.service.impl;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import java.sql.Date;
@@ -73,6 +74,7 @@ class MagazineServiceImplTest {
 
     private static final MagazineEntity magazineEntity = random(MagazineEntity.class);
     private static final Integer MAGAZINE_ID = magazineEntity.getId();
+    private static final Integer FAKE_MAGAZINE_ID = -1;
 
     @PostConstruct
     void init() {
@@ -87,6 +89,23 @@ class MagazineServiceImplTest {
 	assertEquals(generateNewRecordBean(), magazineService.getOldRecord(MAGAZINE_ID));
     }
 
+    @Test
+    void getOldRecordByFakeMagazineId() {
+	when(magazineDao.loadMagazineById(FAKE_MAGAZINE_ID)).thenReturn(null);
+
+	assertEquals(null, magazineService.getOldRecord(FAKE_MAGAZINE_ID));
+    }
+
+    @Test
+    void getOldRecordByNullMagazineId() {
+	when(magazineDao.loadMagazineById(null)).thenThrow(NullPointerException.class);
+
+	assertThrows(NullPointerException.class, () -> {
+	    magazineService.getOldRecord(null);
+	});
+    }
+
+    // test unhappy path later
     @Test
     void getRecords() {
 	List<MagazineEntity> listEntity = prepareListEntity();
@@ -111,7 +130,6 @@ class MagazineServiceImplTest {
 	                                        .collect(Collectors.toList());
 
 	assertEquals(listBean, magazineService.getRecords(dateWith, dateOn, surnames));
-
     }
 
     @Test
