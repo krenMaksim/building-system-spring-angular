@@ -133,7 +133,7 @@ public final class RedactorServiceImpl extends AbstractService implements Redact
 	return entity;
     }
 
-    private <T> boolean isEquals(T objectOne, T objectTwo) {
+    private static <T> boolean isEquals(T objectOne, T objectTwo) {
 	if (objectOne == null && objectTwo == null) {
 	    return true;
 	}
