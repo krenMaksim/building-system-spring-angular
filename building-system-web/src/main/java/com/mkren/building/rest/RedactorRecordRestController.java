@@ -1,9 +1,10 @@
 package com.mkren.building.rest;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
-@org.springframework.web.bind.annotation.RestController
+@RestController
 public class RedactorRecordRestController extends AbstractRestController {
 
 }

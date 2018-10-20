@@ -132,8 +132,15 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 			<version>${mockito.version}</version>
-			<!-- <scope>test</scope> -->
+			<scope>test</scope>
 		</dependency>
+		
+		 <dependency>
+			<groupId>org.skyscreamer</groupId>
+			<artifactId>jsonassert</artifactId>
+			<version>0.9.0</version>
+			<scope>test</scope>
+		</dependency> 
 
 	</dependencies>
 

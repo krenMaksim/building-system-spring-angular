@@ -78,11 +78,9 @@ class NewRecordServiceImplTest {
 	assertEquals(listBean, newRecordService.getAllSmeta());
     }
 
-    @Test
-    void storeNewRecord() {
-
-	// magazineDao.storeMagazine(magazine) что именно вызов данного метода произошел с заданным magazine
-    }
+    // @Test
+    // void storeNewRecord() {
+    // }
 
     @Test
     void storeNewRecordNullValue() {

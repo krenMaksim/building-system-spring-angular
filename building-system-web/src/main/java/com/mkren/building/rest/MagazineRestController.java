@@ -2,31 +2,32 @@ package com.mkren.building.rest;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.mkren.building.bean.MagazineBean;
 
 @CrossOrigin
-@org.springframework.web.bind.annotation.RestController
+@RestController
 public class MagazineRestController extends AbstractRestController {
+    private static final String SURNAME = "surname";
+    private static final String MAGAZINE = "magazine";
 
-	@SuppressWarnings("rawtypes")
-	@RequestMapping(value = "/magazine-rest", method = RequestMethod.GET)
-	public HashMap<String, List> restMagazine() {
-		final String surname = "surname";
-		final String magazine = "magazine";
+    @RequestMapping(value = "/magazine-rest", method = RequestMethod.GET)
+    public Map<String, List<?>> restMagazine() {
 
-		// change to method getAllRecords()
-		List<MagazineBean> magazineBeans = magazineService.getRecords(null, null, null);
-		List<String> surnameInitials = magazineService.surnameInitials();
+	// change to method getAllRecords()
+	List<MagazineBean> magazineBeans = magazineService.getRecords(null, null, null);
+	List<String> surnameInitials = magazineService.surnameInitials();
 
-		HashMap<String, List> map = new HashMap<>();
-		map.put(magazine, magazineBeans);
-		map.put(surname, surnameInitials);
+	Map<String, List<?>> map = new HashMap<>();
+	map.put(MAGAZINE, magazineBeans);
+	map.put(SURNAME, surnameInitials);
 
-		return map;
-	}
+	return map;
+    }
 }

@@ -9,15 +9,15 @@ import com.mkren.building.service.RedactorService;
 
 public abstract class AbstractRestController {
 
-	@Autowired
-	protected AvtorizationService avtorizationService;
+    @Autowired
+    protected AvtorizationService avtorizationService;
 
-	@Autowired
-	protected NewRecordService newRecordService;
+    @Autowired
+    protected NewRecordService newRecordService;
 
-	@Autowired
-	protected MagazineService magazineService;
+    @Autowired
+    protected MagazineService magazineService;
 
-	@Autowired
-	protected RedactorService redactorService;
+    @Autowired
+    protected RedactorService redactorService;
 }

@@ -33,7 +33,7 @@ public class DaoConfig {
 
 	HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 	vendorAdapter.setGenerateDdl(true);
-	vendorAdapter.setShowSql(true);
+	// vendorAdapter.setShowSql(true);
 
 	Properties jpaProperties = new Properties();
 	jpaProperties.setProperty("hibernate.format_sql", "true");
